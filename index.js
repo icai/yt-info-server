@@ -24,7 +24,11 @@ http.createServer(async function(request, response) {
     if (!ytdl.validateURL(vidId)) { // URL is not valid
         serverLog("Serving error");
         response.writeHead(404, {'Content-Type': 'application/json'});
-        response.write("{\"error\":true}");
+        if (vidId == "") {
+            response.write("{\"error\":\"Error: Please include a video URL.\"}");
+        } else {
+            response.write("{\"error\":\"Error: Invalid video URL. The URL should be a full YouTube video URL.\"}");
+        }
         response.end()
     } else {
         var info;
@@ -36,7 +40,7 @@ http.createServer(async function(request, response) {
         }, (reason) => { // Promise rejected
             serverLog("Serving error");
             response.writeHead(404, {'Content-Type': 'application/json'});
-            response.write("{\"error\":true}");
+            response.write("{\"error\":\"" + reason + ".\"}");
             response.end()
         });
     }
