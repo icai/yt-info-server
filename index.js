@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 var http = require('http');
 var ytdl = require('ytdl-core')
+var packageJson = require('./package.json');
 
 var serverPort = process.argv[2];
 if (serverPort == undefined) {
@@ -10,7 +11,7 @@ if (serverPort == undefined) {
 function serverLog(text) {
     console.log("[" + new Date(Date.now()).toUTCString() + "] " + text);
 }
-serverLog("yt-info-server 1.0.0 by Benjamin Lowry. Licensed under the MIT license.");
+serverLog("yt-info-server " + packageJson.version + " by Benjamin Lowry. Licensed under the MIT license.");
 serverLog("Starting server on port " + serverPort.toString()); // Startup text
 
 process.on('SIGINT', () => { // Handle ^C
