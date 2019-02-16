@@ -1,5 +1,5 @@
 # yt-info-server 
-yt-info-server is a simple HTTP server that lets clients get information about
+yt-info-server is a simple command-line HTTP server that lets clients get information about
 YouTube videos, including title, thumbnail, related videos, direct links to
 streamable video files, etc. using [ytdl-core](https://www.npmjs.com/package/ytdl-core).
 ## Installation
