@@ -18,7 +18,9 @@ Clients can get data from the server with a URL like this:
 
 Just append the full YouTube video URL to the server address to get info about
 that video. The server will return the JSON output of ``ytdl.getInfo``. If
-there's an error, the server will return ``{"error":true}``.
+there's an error, the server will return a string describing the error, like this:
+
+``{"error":"Error: Invalid video URL. The URL should be a full YouTube video URL."}``
 
 A public installation of this server is at https://ytinfo.benjaminlowry.com/.
 ## License
