@@ -24,7 +24,7 @@ http.createServer(async function(request, response) {
     var vidId = request.url.replace("/", "");
     if (!ytdl.validateURL(vidId)) { // URL is not valid
         serverLog("Serving error");
-        response.writeHead(404, {'Content-Type': 'application/json'});
+        response.writeHead(404, {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'});
         if (vidId == "") {
             response.write("{\"error\":\"Error: Please include a video URL.\"}");
         } else {
@@ -35,12 +35,12 @@ http.createServer(async function(request, response) {
         var info;
         ytdl.getInfo(vidId).then((value) => { // Promise fulfilled
             serverLog("Serving info for " + vidId);
-            response.writeHead(200, {'Content-Type': 'application/json'});
+            response.writeHead(200, {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'});
             response.write(JSON.stringify(value)); // Convert the object ytdl gives us into a JSON string we can return
             response.end();
         }, (reason) => { // Promise rejected
             serverLog("Serving error");
-            response.writeHead(404, {'Content-Type': 'application/json'});
+            response.writeHead(404, {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'});
             response.write("{\"error\":\"" + reason + ".\"}");
             response.end()
         });
