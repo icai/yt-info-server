@@ -5,7 +5,7 @@ var packageJson = require('./package.json');
 
 var serverPort = process.argv[2];
 if (serverPort == undefined) {
-    serverPort = 5678; // Set default port
+    serverPort = 3000; // Set default port
 }
 
 function serverLog(text) {
