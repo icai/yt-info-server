@@ -1,4 +1,4 @@
-function init() {
+function init {
     apt-get update
     # # install nginx
     if ! nginx -t 2>/dev/null; then 
@@ -41,12 +41,11 @@ function init() {
     # setup firewall
 
     iptables -I INPUT -m state --state NEW -m tcp -p tcp --dport 80 -j ACCEPT
-    service iptables save
 
     service nginx restart
 }
 
-if [ $UID -ne 0 ]; then
+if [[ $(id -u) -ne 0 ]]; then
     echo "Superuser privileges are required to run this script."
     echo "e.g. \"sudo $0\""
     exit 1
