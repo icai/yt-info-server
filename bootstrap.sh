@@ -1,6 +1,7 @@
-DOMAIN = api-yt.w3cub.com
-EMAIL = gidcai@gmail.com
+#!/bin/bash
 
+export DOMAIN='api-yt.w3cub.com'
+export EMAIL='gidcai@gmail.com'
 
 init() {
     apt-get update
@@ -46,40 +47,36 @@ init() {
         echo "127.0.0.1	api-yt.w3cub.com" >> /etc/hosts; 
     fi
 
-
-
-
-    
 }
 
 
 
 config_nginx() {
     # install certbot
-    apt-get install dirmngr
-    apt-get install software-properties-common -y
-    add-apt-repository ppa:certbot/certbot -y
-    apt-get update
-    apt-get install python-certbot-nginx -y
+    # apt-get install dirmngr
+    # apt-get install software-properties-common -y
+    # add-apt-repository ppa:certbot/certbot -y
+    # apt-get update
+    # apt-get install python-certbot-nginx -y
 
     # certbot certonly --nginx --agree-tos -n -d $DOMAIN --email $EMAIL
 # Update nginx config to enable https
-cat << EOF>/etc/nginx/conf.d/$DOMAIN.conf
+cat >/etc/nginx/conf.d/$DOMAIN.conf << EOF
 server {
-    server_name $DOMAIN;
+    server_name ${DOMAIN};
     location / {
         proxy_pass http://localhost:3000;
         proxy_set_header X-Real-IP \$remote_addr;
     }
     listen 443 ssl; # managed by Certbot
-    ssl_certificate /etc/letsencrypt/live/$DOMAIN/fullchain.pem; # managed by Certbot
-    ssl_certificate_key /etc/letsencrypt/live/$DOMAIN/privkey.pem; # managed by Certbot
+    ssl_certificate /etc/letsencrypt/live/${DOMAIN}/fullchain.pem; # managed by Certbot
+    ssl_certificate_key /etc/letsencrypt/live/${DOMAIN}/privkey.pem; # managed by Certbot
     include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
     ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
 }
 server {
     listen          80;
-    server_name     $DOMAIN;
+    server_name     ${DOMAIN};
     return          301 https://\$server_name\$request_uri;
 }
 EOF
@@ -87,13 +84,12 @@ EOF
 service nginx restart
 
 # setup firewall
-
 iptables -I INPUT -m state --state NEW -m tcp -p tcp --dport 80 -j ACCEPT
 iptables -I INPUT -m state --state NEW -m tcp -p tcp --dport 443 -j ACCEPT
 
 }
 
-if [[ $(id -u) -ne 0 ]]; then
+if [ $(id -u) -ne 0 ]; then
     echo "Superuser privileges are required to run this script."
     echo "e.g. \"sudo $0\""
     exit 1
@@ -103,7 +99,3 @@ init
 config_nginx
 
 # copy nginx config
-
-
-
-
