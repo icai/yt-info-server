@@ -3,6 +3,7 @@ function init {
     # # install nginx
     if ! nginx -t 2>/dev/null; then 
         apt-get install -y nginx
+        update-rc.d nginx defaults
     fi
 
     # # install nodejs
@@ -25,7 +26,9 @@ function init {
 
     if test -z "$pm2" && [[ -e "ecosystem.config.js" ]]; then
         echo "pm2 start ..."
+        pm2 startup
         pm2 start ecosystem.config.js
+        pm2 save
     else 
         echo "no found  ecosystem.config.js"
     fi
