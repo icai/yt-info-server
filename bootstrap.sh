@@ -20,7 +20,8 @@ function init() {
         # pm2
         npm install pm2 -g
     fi
-
+    # npm install
+    npm i
 
     if test -z "$pm2" && [[ -e "ecosystem.config.js" ]]; then
         echo "pm2 start ..."
